@@ -12,7 +12,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 
 public class Mesto1Test {
-    String bearerToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTc1ODNlYzkyYWE5NTAwM2Q2MDE0MGEiLCJpYXQiOjE2NDg2NjYzNTEsImV4cCI6MTY0OTI3MTE1MX0.1ybHyfhygr7TF04n7Mv-ACW1kPy8jLXdnxa3Z3IRte4";
+    String bearerToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTc1ODNlYzkyYWE5NTAwM2Q2MDE0MGEiLCJpYXQiOjE2NDg2OTk2OTAsImV4cCI6MTY0OTMwNDQ5MH0.8GUa9XhRoyEzsiLahWrLH6VkDC6qcP_244FNIvNcYcQ";
 
     @Before
     public void setUp() {
@@ -66,5 +66,14 @@ public class Mesto1Test {
                 .auth().oauth2(bearerToken) // Передаём токен для аутентификации
                 .delete("/api/cards/{photoId}/likes", photoId) // Делаем DELETE-запрос
                 .then().assertThat().statusCode(200); // Проверяем, что сервер вернул код 200
+    }
+    @Test
+    @DisplayName("Check user name")
+    @Description("This test is for check current user's name.")
+    public void checkUserName() {
+        given()
+                .auth().oauth2(bearerToken) // Передаём токен для аутентификации
+                .get("/api/users/me") // Делаем GET-запрос
+                .then().assertThat().body("data.name", equalTo("Incorrect Name")); // Проверяем, что имя соответствует ожидаемому
     }
 }
